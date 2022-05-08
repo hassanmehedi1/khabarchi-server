@@ -37,6 +37,30 @@ async function run() {
       res.send(food);
     });
 
+    //update
+    //delivered by one one
+    app.put("/food/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+
+      const newQuantity = req.body;
+      console.log(newQuantity);
+
+      const filter = { _id: ObjectId(id) };
+      const option = { upsert: true };
+      const updateDoc = {
+        $set: {
+          quantity: newQuantity.quantity - 1,
+        },
+      };
+      const result = await foodCollection.updateOne(
+        filter,
+        updateDoc,
+        option
+      );
+      res.send(result);
+    });
+
     //POST
     app.post("/food", async (req, res) => {
       const newFood = req.body;
