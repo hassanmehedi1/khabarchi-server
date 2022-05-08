@@ -37,6 +37,16 @@ async function run() {
       res.send(food);
     });
 
+    app.get('/myitem', async (req, res)=>{
+      const email = req.query.email;
+      console.log(email);
+      const query = {email}
+      const cursor = foodCollection.find(query)
+      const orders = await cursor.toArray();
+      res.send(orders);
+    })
+    
+
     //update
     //delivered by one one
     app.put("/food/:id", async (req, res) => {
@@ -63,10 +73,10 @@ async function run() {
 
      app.put("/update/:id", async (req, res) => {
        const id = req.params.id;
-       console.log(id);
+      //  console.log(id);
 
        const newQuantity = req.body;
-       console.log(newQuantity);
+      //  console.log(newQuantity);
        const filter = { _id: ObjectId(id) };
        const option = { upsert: true };
        const updateDoc = {
