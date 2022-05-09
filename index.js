@@ -7,7 +7,12 @@ const port = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 //middleware
-app.use(cors());
+const corsConfig = {
+  origin: true,
+  credentials: true,
+};
+app.use(cors(corsConfig));
+app.options("*", cors(corsConfig));
 app.use(express.json());
 
 function verifyJWT(req, res, next) {
@@ -74,7 +79,6 @@ async function run() {
       } else {
         res.status(403).send({ message: "Forbidden Access" });
       }
-      
     });
 
     //update
